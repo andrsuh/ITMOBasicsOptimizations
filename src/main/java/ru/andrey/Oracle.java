@@ -1,3 +1,5 @@
+package ru.andrey;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,7 +29,7 @@ public class Oracle {
         System.out.println("Argument min == " + argValue);
     }
 
-    public Double quality(double x) {
+    public Double quality(final double x) {
         if (counter-- == 0) {
             return null;
         }

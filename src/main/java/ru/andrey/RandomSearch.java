@@ -1,3 +1,5 @@
+package ru.andrey;
+
 public class RandomSearch {
     private double step = 0.001;
     private Oracle oracle = new Oracle();
