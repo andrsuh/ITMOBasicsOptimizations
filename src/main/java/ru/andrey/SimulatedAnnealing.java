@@ -1,52 +1,71 @@
-package ru.andrey;
+package main.java.ru.andrey;
 
-import static java.lang.Math.*;
+import java.util.Arrays;
+
+import static java.lang.Math.exp;
+import static java.lang.Math.random;
 
 public class SimulatedAnnealing {
-    private double temperature = 1000;
-//    private double scedule = 0.1;
-    private Oracle oracle = new Oracle();
+    private int dimension;
+    private double temperature;
+    private Oracle oracle;
+
+    public SimulatedAnnealing(int dimension) {
+        this.dimension = dimension;
+    }
 
     public static void main(String[] args) {
-        SimulatedAnnealing s = new SimulatedAnnealing();
-        System.out.println("Optimum " + s.searchOptimum());
+        double acc = 0.0;
+        SimulatedAnnealing s = new SimulatedAnnealing(10);
+        for (int i = 0; i < 100; ++i) {
+            double opt = s.searchOptimum();
+            acc += opt;
+            System.out.println("Optimum " + opt);
+        }
+        System.out.println("Average " + acc / 100.0);
     }
 
     public Double searchOptimum() {
-        Double globalOptimum = null;
-        double globalOptimumQuality = Double.POSITIVE_INFINITY;
+        oracle = new Oracle(dimension);
+        temperature = 100;
 
-        double currentSolution = random() * 20 - 10; // [-10, 10)
-        double currentQuality = oracle.quality(currentSolution);
+        Solution globalOptimum = null;
 
-        while (temperature > 0 + 0.0001) {
-            double pretendentSolution = random() * 20 - 10;
-            Double pretendentQuality = oracle.quality(pretendentSolution);
+        Solution currentSolution = new Solution(
+                oracle,
+                Arrays.stream(new double[dimension])
+                        .map((x) -> random() * 20 - 10)
+                        .toArray()
+        );
 
-            if (pretendentQuality == null) {
-                System.out.println("Number of attempts = 0");
+        while (temperature > 0.00000001) {
+            Solution pretendentSolution = new Solution(
+                    oracle,
+                    Arrays.stream(new double[dimension])
+                            .map((x) -> random() * 20 - 10)
+                            .toArray()
+            );
+
+            if (pretendentSolution.isBroken()) {
                 break;
             }
 
-            if (pretendentQuality < currentQuality || random() < exp((currentQuality - pretendentQuality) / temperature)) { // we are looking for minimum
-                System.out.println("CurSolution: " + currentSolution + " CurQuality: " + currentQuality);
-                System.out.println("----------------------------------------------------------");
-                currentSolution = pretendentSolution;
-                currentQuality = pretendentQuality;
+            if (pretendentSolution.getQuality() < currentSolution.getQuality() ||
+                    random() < exp((currentSolution.getQuality() - pretendentSolution.getQuality()) / temperature)) { // we are looking for minimum
+//                System.out.println("CurSolution: " + currentSolution.getSolution() + " CurQuality: " + currentSolution.getQuality());
+//                System.out.println("----------------------------------------------------------");
+                currentSolution = new Solution(pretendentSolution);
             }
 
-            temperature /= 1.004;
+//            temperature /= 1.004;
 
-            if (currentQuality < globalOptimumQuality) {
-                globalOptimum = currentSolution;
-                globalOptimumQuality = currentQuality;
-            }
+            temperature -= 0.001;
 
-            if (temperature < 0 + 0.0001) {
-                System.out.println("Temperature = 0");
+            if (globalOptimum == null || currentSolution.getQuality() < globalOptimum.getQuality()) {
+                globalOptimum = new Solution(currentSolution);
             }
         }
 
-        return globalOptimum;
+        return globalOptimum.getQuality();
     }
 }

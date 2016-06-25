@@ -6,8 +6,14 @@ public class IteratedLocalSearch {
     private double step = 0.005;
 
     public static void main(String[] args) {
-        IteratedLocalSearch s = new IteratedLocalSearch();
-        System.out.println("Optimum " + s.searchOptimum());
+        double acc = 0.0;
+        for (int i = 0; i < 100; ++i) {
+            IteratedLocalSearch s = new IteratedLocalSearch();
+            double opt = s.searchOptimum();
+            acc += opt;
+            System.out.println("Optimum " + opt);
+        }
+        System.out.println("Average " + acc / 100.0);
     }
 
     public Double searchOptimum() {
@@ -16,76 +22,45 @@ public class IteratedLocalSearch {
         Solution bestSolution = new Solution(potentialSolution);
 
         while (true) {
-            int time = (int) (Math.random() * 300 + 100); // [100, 999]
-            System.out.println("Time == " + time);
+//            int time = (int) (Math.random() * 900 + 100);
+
+            int time = 800;
+//            Solution temp = new Solution(potentialSolution);
+//            temp.mutation(step, false);
+//            if (temp.getQuality() > potentialSolution.getQuality()) {
+//                step *= -1;
+//            }
+
             while (time-- > 0) {
-                Solution newSolution = new Solution(oracle, potentialSolution.getSolution() + step);
+                Solution newSolution = new Solution(potentialSolution);
+                newSolution.mutation(step, false);
 
                 if (newSolution.isBroken()) {
                     return bestSolution.getQuality();
                 }
 
                 if (potentialSolution.getQuality() > newSolution.getQuality()) {
-                    System.out.println("CurSolution: " + potentialSolution.getSolution() + " CurQuality: " + potentialSolution.getQuality());
+//                    System.out.println("CurSolution: " + potentialSolution.getSolution() + " CurQuality: " + potentialSolution.getQuality());
 //                    System.out.println("----------------------------------------------------------");
-
                     potentialSolution = newSolution;
                 }
             }
 
             if (bestSolution.getQuality() > potentialSolution.getQuality()) {
-                bestSolution = potentialSolution;
+                bestSolution = new Solution(potentialSolution);
             }
 
             if (homeBase.getQuality() > potentialSolution.getQuality()) {
-                homeBase = potentialSolution;
+                homeBase = new Solution(potentialSolution);
             }
 
-            double randomJump = (Math.random() - 1);
-            System.out.println("randomJump  " +  randomJump);
-            potentialSolution = new Solution(oracle, homeBase.getSolution() + randomJump);
+            double randomJump = (Math.random() * 1 - 1);
+//            homeBase.mutation(randomJump, false);
+//            potentialSolution = new Solution(oracle, homeBase.getSolution());
+            potentialSolution.mutation(randomJump, false);
+            if (potentialSolution.isBroken()) {
+                return bestSolution.getQuality();
+            }
         }
     }
-
-//    public Double searchOptimum() {
-//        double potentialSolution = Math.random() * 20 - 10; // [-10, 10)
-//        double potentialSolutionQuality = oracle.quality(potentialSolution);
-//
-//        double homeBase = potentialSolution;
-//        double homeBaseQuality = potentialSolutionQuality;
-//
-//        Double bestSolution = potentialSolution;
-//        double bestSolutionQuality = potentialSolutionQuality;
-//
-//        while (true) {
-//            double time = (int) (Math.random() * 900 + 100); // [100, 999]
-//            while (time-- > 0) {
-//                double newSolution = potentialSolution + step;
-//                Double newSolutionQuality = oracle.quality(newSolution);
-//                if (newSolutionQuality == null) {
-//                    return bestSolution;
-//                }
-//
-//                if (potentialSolutionQuality > newSolutionQuality) {
-//                    System.out.println("CurSolution: " + potentialSolution + " CurQuality: " + potentialSolutionQuality);
-//                    System.out.println("----------------------------------------------------------");
-//
-//                    potentialSolution = newSolution;
-//                    potentialSolutionQuality = newSolutionQuality;
-//                }
-//            }
-//
-//            if (bestSolutionQuality > potentialSolutionQuality) {
-//                bestSolution = potentialSolution;
-//                bestSolutionQuality = potentialSolutionQuality;
-//            }
-//
-//            if (homeBaseQuality > potentialSolutionQuality) {
-//                homeBase = potentialSolution;
-//                homeBaseQuality = potentialSolutionQuality;
-//            }
-//
-//            potentialSolution = homeBase + (Math.random() - 0.5);
-//        }
-//    }
 }
