@@ -9,7 +9,7 @@ public class RandomSearch {
 
     public static void main(String[] args) {
         double acc = 0.0;
-        RandomSearch s = new RandomSearch(1);
+        RandomSearch s = new RandomSearch(5);
         for (int i = 0; i < 100; ++i) {
             double opt = s.searchOptimum();
             acc += opt;
@@ -35,7 +35,7 @@ public class RandomSearch {
             );
 
             Solution pretendentSolution = new Solution(currentSolution);
-            pretendentSolution.mutation(step, false);
+            pretendentSolution.mutate(step, false);
 
             if (currentSolution.isBroken()) {
                 return globalOptimum.getQuality();
@@ -47,7 +47,7 @@ public class RandomSearch {
 
             while (true) {
                 pretendentSolution = new Solution(currentSolution);
-                pretendentSolution.mutation(step, false);
+                pretendentSolution.mutate(step, false);
 
                 if (pretendentSolution.isBroken()) {
                     return globalOptimum.getQuality();
@@ -59,7 +59,14 @@ public class RandomSearch {
                     currentSolution = new Solution(pretendentSolution);
                 } else {
                     if (globalOptimum == null || currentSolution.getQuality() < globalOptimum.getQuality()) {
-                        globalOptimum = new Solution(currentSolution);
+                            globalOptimum = new Solution(currentSolution);
+//                        while (globalOptimum == null || currentSolution.getQuality() < globalOptimum.getQuality()) {
+//                            globalOptimum = new Solution(currentSolution);
+//                            currentSolution.mutate(step, false);
+//                            if (currentSolution.isBroken()) {
+//                                return globalOptimum.getQuality();
+//                            }
+//                        }
                     }
                     break;
                 }

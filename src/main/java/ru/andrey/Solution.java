@@ -14,7 +14,6 @@ public class Solution {
     public Solution(Oracle oracle, double[] initialSolution) {
         this.oracle = oracle;
         this.solution = initialSolution;
-
         quality = oracle.quality(solution);
     }
 
@@ -24,19 +23,15 @@ public class Solution {
         this.quality = other.quality;
     }
 
-    public void mutation(double step, boolean isRandom) {
+    public void mutate(double step, boolean isRandom) {
         if (isRandom) {
             solution = Arrays.stream(solution)
                     .map((x) -> x + (Math.random() * (2 * step) - step)) // for each x in vector plus random number from [-step, step)
                     .toArray();
         } else {
-//            System.out.println("Before");
-//            Arrays.stream(solution).forEach(System.out::print);
             solution = Arrays.stream(solution)
                     .map((x) -> x + step) // for each x in vector plus step
                     .toArray();
-//            System.out.println("After");
-//            Arrays.stream(solution).forEach(System.out::print);
         }
 
         quality = oracle.quality(solution);

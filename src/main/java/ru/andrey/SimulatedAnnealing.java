@@ -27,7 +27,7 @@ public class SimulatedAnnealing {
 
     public Double searchOptimum() {
         oracle = new Oracle(dimension);
-        temperature = 100;
+        temperature = 1000;
 
         Solution globalOptimum = null;
 
@@ -38,7 +38,9 @@ public class SimulatedAnnealing {
                         .toArray()
         );
 
-        while (temperature > 0.00000001) {
+//        Solution pretendentSolution = new Solution(currentSolution);
+        while (true) {
+//            pretendentSolution.mutate(0.5, true);
             Solution pretendentSolution = new Solution(
                     oracle,
                     Arrays.stream(new double[dimension])
@@ -46,7 +48,9 @@ public class SimulatedAnnealing {
                             .toArray()
             );
 
+
             if (pretendentSolution.isBroken()) {
+                System.out.println("Attempt is ending");
                 break;
             }
 
@@ -54,17 +58,39 @@ public class SimulatedAnnealing {
                     random() < exp((currentSolution.getQuality() - pretendentSolution.getQuality()) / temperature)) { // we are looking for minimum
 //                System.out.println("CurSolution: " + currentSolution.getSolution() + " CurQuality: " + currentSolution.getQuality());
 //                System.out.println("----------------------------------------------------------");
-                currentSolution = new Solution(pretendentSolution);
+//                currentSolution = new Solution(pretendentSolution);
+                currentSolution = pretendentSolution;
             }
 
-//            temperature /= 1.004;
+//            temperature /= 1.000000000001;
 
-            temperature -= 0.001;
+            temperature -= 0.00001;
 
             if (globalOptimum == null || currentSolution.getQuality() < globalOptimum.getQuality()) {
                 globalOptimum = new Solution(currentSolution);
             }
         }
+
+//        Solution potentialSolution = new Solution(globalOptimum);
+//        double step = 0.1;
+//        potentialSolution.mutate(step, false);
+//        if (potentialSolution.isBroken()) {
+//            return globalOptimum.getQuality();
+//        }
+//        if (potentialSolution.getQuality() > globalOptimum.getQuality()) {
+//            step += -1;
+//            potentialSolution = new Solution(globalOptimum);
+//        }
+//
+//        while (true) {
+//            potentialSolution.mutate(step, false);
+//            if (potentialSolution.getQuality() < globalOptimum.getQuality()) {
+//                globalOptimum = new Solution(potentialSolution);
+//            } else {
+//                System.out.println("Local search: Attempt is ending");
+//                break;
+//            }
+//        }
 
         return globalOptimum.getQuality();
     }

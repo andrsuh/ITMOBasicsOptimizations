@@ -10,7 +10,7 @@ public class SimpleEvolutionStrategyWithMerge {
     private int m;
     private int l;
     private double step = 1;
-    private Oracle oracle = new Oracle();
+    private Oracle oracle;
 
     public SimpleEvolutionStrategyWithMerge(int dimension, int m, int l) {
         this.dimension = dimension;
@@ -20,7 +20,7 @@ public class SimpleEvolutionStrategyWithMerge {
 
     public static void main(String[] args) {
         double acc = 0.0;
-        SimpleEvolutionStrategyWithMerge s = new SimpleEvolutionStrategyWithMerge(10, 50, 200);
+        SimpleEvolutionStrategyWithMerge s = new SimpleEvolutionStrategyWithMerge(5, 50, 200);
         for (int i = 0; i < 100; ++i) {
             double opt = s.searchOptimum();
             acc += opt;
@@ -57,11 +57,11 @@ public class SimpleEvolutionStrategyWithMerge {
                 population.add(s);
                 for (int i = 0; i < (l / m); ++i) {
                     Solution solution = new Solution(s);
-                    solution.mutation(step, true);
+                    solution.mutate(step, true);
                     if (solution.isBroken()) {
                         return bestSolution.getQuality();
                     }
-                    population.add(solution); // mutation
+                    population.add(solution); // mutate
                 }
             }
         }

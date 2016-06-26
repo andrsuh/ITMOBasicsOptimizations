@@ -9,7 +9,7 @@ public class SimpleEvolutionStrategyWithReplace {
     private int dimension;
     private int m;
     private int l;
-    private double step = 0.5;
+    private double step = 1;
     private Oracle oracle;
 
     public SimpleEvolutionStrategyWithReplace(int dimension, int m, int l) {
@@ -20,7 +20,7 @@ public class SimpleEvolutionStrategyWithReplace {
 
     public static void main(String[] args) {
         double acc = 0.0;
-        SimpleEvolutionStrategyWithReplace s = new SimpleEvolutionStrategyWithReplace(10, 10, 50);
+        SimpleEvolutionStrategyWithReplace s = new SimpleEvolutionStrategyWithReplace(10, 50, 800);
         for (int i = 0; i < 100; ++i) {
             double opt = s.searchOptimum();
             acc += opt;
@@ -45,9 +45,9 @@ public class SimpleEvolutionStrategyWithReplace {
         Solution bestSolution = null;
 
         while (true) {
-            for (Solution s : population) {
-                if (bestSolution == null || s.getQuality() < bestSolution.getQuality()) {
-                    bestSolution = new Solution(s);
+            for (Solution solution : population) {
+                if (bestSolution == null || solution.getQuality() < bestSolution.getQuality()) {
+                    bestSolution = new Solution(solution);
                 }
             }
 
@@ -55,11 +55,11 @@ public class SimpleEvolutionStrategyWithReplace {
             population = new TreeSet<>((a, b) -> a.getQuality().compareTo(b.getQuality()));
             for (Solution s : individualsForMutation) {
                 for (int i = 0; i < (l / m); ++i) {
-                    s.mutation(step, true);
+                    s.mutate(step, true);
                     if (s.isBroken()) {
                         return bestSolution.getQuality();
                     }
-                    population.add(s); // mutation
+                    population.add(s); // mutate
                 }
             }
         }
