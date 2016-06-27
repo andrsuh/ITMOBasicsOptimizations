@@ -20,7 +20,7 @@ public class SimpleEvolutionStrategyWithReplace {
 
     public static void main(String[] args) {
         double acc = 0.0;
-        SimpleEvolutionStrategyWithReplace s = new SimpleEvolutionStrategyWithReplace(10, 50, 800);
+        SimpleEvolutionStrategyWithReplace s = new SimpleEvolutionStrategyWithReplace(10, 5, 25);
         for (int i = 0; i < 100; ++i) {
             double opt = s.searchOptimum();
             acc += opt;
@@ -52,14 +52,16 @@ public class SimpleEvolutionStrategyWithReplace {
             }
 
             Set<Solution> individualsForMutation = population.stream().limit(m).collect(Collectors.toSet());
+
             population = new TreeSet<>((a, b) -> a.getQuality().compareTo(b.getQuality()));
             for (Solution s : individualsForMutation) {
                 for (int i = 0; i < (l / m); ++i) {
-                    s.mutate(step, true);
-                    if (s.isBroken()) {
+                    Solution temp = new Solution(s);
+                    temp.mutate(step, true);
+                    if (temp.broken()) {
                         return bestSolution.getQuality();
                     }
-                    population.add(s); // mutate
+                    population.add(temp); // mutate
                 }
             }
         }
