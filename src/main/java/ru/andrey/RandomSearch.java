@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class RandomSearch {
     private int dimension;
-    private double step = 0.001;
+    private double step = 1;
     private Oracle oracle;
 
     public static void main(String[] args) {
@@ -34,22 +34,15 @@ public class RandomSearch {
                         .toArray()
             );
 
-            Solution pretendentSolution = new Solution(currentSolution);
-            pretendentSolution.mutate(step, false);
-
-            if (currentSolution.isBroken()) {
+            if (currentSolution.broken()) {
                 return globalOptimum.getQuality();
             }
 
-            if (pretendentSolution.getQuality() > currentSolution.getQuality()) {
-                step *= -1;
-            }
-
             while (true) {
-                pretendentSolution = new Solution(currentSolution);
-                pretendentSolution.mutate(step, false);
+                Solution pretendentSolution = new Solution(currentSolution);
+                pretendentSolution.mutate(step, true);
 
-                if (pretendentSolution.isBroken()) {
+                if (pretendentSolution.broken()) {
                     return globalOptimum.getQuality();
                 }
 
@@ -59,11 +52,14 @@ public class RandomSearch {
                     currentSolution = new Solution(pretendentSolution);
                 } else {
                     if (globalOptimum == null || currentSolution.getQuality() < globalOptimum.getQuality()) {
-                            globalOptimum = new Solution(currentSolution);
-//                        while (globalOptimum == null || currentSolution.getQuality() < globalOptimum.getQuality()) {
-//                            globalOptimum = new Solution(currentSolution);
-//                            currentSolution.mutate(step, false);
-//                            if (currentSolution.isBroken()) {
+                        globalOptimum = new Solution(currentSolution);
+//                        int times = 1000;
+//                        while (times-- == 0 || globalOptimum == null) {
+//                            if (currentSolution.getQuality() < globalOptimum.getQuality()) {
+//                                globalOptimum = new Solution(currentSolution);
+//                            }
+//                            currentSolution.mutate(0.1, true);
+//                            if (currentSolution.broken()) {
 //                                return globalOptimum.getQuality();
 //                            }
 //                        }

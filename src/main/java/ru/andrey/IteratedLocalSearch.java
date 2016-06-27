@@ -1,7 +1,5 @@
 package main.java.ru.andrey;
 
-
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 import static java.lang.Math.random;
@@ -9,11 +7,11 @@ import static java.lang.Math.random;
 public class IteratedLocalSearch {
     private int dimension;
     private Oracle oracle;
-    private double step = 0.005;
+    private double step = 0.05;
 
     public static void main(String[] args) {
         double acc = 0.0;
-        IteratedLocalSearch s = new IteratedLocalSearch(3);
+        IteratedLocalSearch s = new IteratedLocalSearch(10);
         for (int i = 0; i < 100; ++i) {
             double opt = s.searchOptimum();
             acc += opt;
@@ -39,20 +37,13 @@ public class IteratedLocalSearch {
         Solution bestSolution = new Solution(potentialSolution);
 
         while (true) {
-            int time = (int) (Math.random() * 900 + 100);
-
-            Solution temp = new Solution(potentialSolution);
-            temp.mutate(step, false);
-            if (temp.getQuality() > potentialSolution.getQuality()) {
-                step *= -1;
-            }
+            int time = dimension * (int) Math.random() * 900 + 100;
 
             while (time-- > 0) {
                 Solution newSolution = new Solution(potentialSolution);
-                newSolution.mutate(step, false);
+                newSolution.mutate(step, true);
 
-                if (newSolution.isBroken()) {
-//                    Arrays.stream(bestSolution.getSolution()).forEach(System.out::println);
+                if (newSolution.broken()) {
                     return bestSolution.getQuality();
                 }
 
@@ -67,16 +58,13 @@ public class IteratedLocalSearch {
                 bestSolution = new Solution(potentialSolution);
             }
 
-            if (homeBase.getQuality() > potentialSolution.getQuality()) {
+            if (homeBase.getQuality() > potentialSolution.getQuality() || 0.1 > random()) {
                 homeBase = new Solution(potentialSolution);
             }
 
-            double randomJump = (Math.random() * 2 - 1);
-//            homeBase.mutate(randomJump, false);
-//            potentialSolution = new Solution(oracle, homeBase.getSolution());
-            potentialSolution.mutate(randomJump, false);
-            if (potentialSolution.isBroken()) {
-//                Arrays.stream(bestSolution.getSolution()).forEach(System.out::println);
+            double randomJump = Math.random() * 3 - 1.5; // [-1.5, 1.5)
+            potentialSolution.mutate(randomJump, true);
+            if (potentialSolution.broken()) {
                 return bestSolution.getQuality();
             }
         }
