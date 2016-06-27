@@ -45,7 +45,7 @@ public class Solution {
         return quality;
     }
 
-    public boolean isBroken() {
+    public boolean broken() {
         return quality == null;
     }
 }

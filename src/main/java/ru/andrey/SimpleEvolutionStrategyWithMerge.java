@@ -20,7 +20,7 @@ public class SimpleEvolutionStrategyWithMerge {
 
     public static void main(String[] args) {
         double acc = 0.0;
-        SimpleEvolutionStrategyWithMerge s = new SimpleEvolutionStrategyWithMerge(5, 50, 200);
+        SimpleEvolutionStrategyWithMerge s = new SimpleEvolutionStrategyWithMerge(10, 50, 200);
         for (int i = 0; i < 100; ++i) {
             double opt = s.searchOptimum();
             acc += opt;
@@ -58,7 +58,7 @@ public class SimpleEvolutionStrategyWithMerge {
                 for (int i = 0; i < (l / m); ++i) {
                     Solution solution = new Solution(s);
                     solution.mutate(step, true);
-                    if (solution.isBroken()) {
+                    if (solution.broken()) {
                         return bestSolution.getQuality();
                     }
                     population.add(solution); // mutate

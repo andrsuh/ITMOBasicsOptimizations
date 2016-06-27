@@ -36,7 +36,6 @@ public class Oracle {
 
     public Oracle(int dimension) {
         this.dimension = dimension;
-//        System.out.println((int)10E4 * (int)pow(dimension, 2));
         this.counter = (int)10E4 * (int)pow(dimension, 2);
     }
 
@@ -57,12 +56,12 @@ public class Oracle {
 
         for (int i = 0; i < 5; ++i) {
             double summ = 0;
-//            System.out.print(b + "  + " + (g / 10) + " * ");
+
             for (int j = 0; j < dimension; ++j) {
-//                System.out.println("( x " + " - " + a + " )" );
                 summ += pow((args[j] - a), 2);
             }
             values.add(b + (g / 10) * summ); // g / 10 avoid problems with float numbers
+
             b++;
             g -= 2;
             a++;

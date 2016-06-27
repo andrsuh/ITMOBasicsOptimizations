@@ -49,7 +49,7 @@ public class SimulatedAnnealing {
             );
 
 
-            if (pretendentSolution.isBroken()) {
+            if (pretendentSolution.broken()) {
                 System.out.println("Attempt is ending");
                 break;
             }
@@ -64,7 +64,7 @@ public class SimulatedAnnealing {
 
 //            temperature /= 1.000000000001;
 
-            temperature -= 0.00001;
+            temperature -= 0.00000001;
 
             if (globalOptimum == null || currentSolution.getQuality() < globalOptimum.getQuality()) {
                 globalOptimum = new Solution(currentSolution);
@@ -73,8 +73,8 @@ public class SimulatedAnnealing {
 
 //        Solution potentialSolution = new Solution(globalOptimum);
 //        double step = 0.1;
-//        potentialSolution.mutate(step, false);
-//        if (potentialSolution.isBroken()) {
+//        potentialSolution.mutate(step, true);
+//        if (potentialSolution.broken()) {
 //            return globalOptimum.getQuality();
 //        }
 //        if (potentialSolution.getQuality() > globalOptimum.getQuality()) {
@@ -83,11 +83,11 @@ public class SimulatedAnnealing {
 //        }
 //
 //        while (true) {
-//            potentialSolution.mutate(step, false);
+//            potentialSolution.mutate(step, true);
 //            if (potentialSolution.getQuality() < globalOptimum.getQuality()) {
 //                globalOptimum = new Solution(potentialSolution);
 //            } else {
-//                System.out.println("Local search: Attempt is ending");
+////                System.out.println("Local search: Attempt is ending");
 //                break;
 //            }
 //        }
