@@ -23,16 +23,10 @@ public class Solution {
         this.quality = other.quality;
     }
 
-    public void mutate(double step, boolean isRandom) {
-        if (isRandom) {
-            solution = Arrays.stream(solution)
-                    .map((x) -> x + (Math.random() * (2 * step) - step)) // for each x in vector plus random number from [-step, step)
-                    .toArray();
-        } else {
-            solution = Arrays.stream(solution)
-                    .map((x) -> x + step) // for each x in vector plus step
-                    .toArray();
-        }
+    public void mutate(double step) {
+        solution = Arrays.stream(solution)
+                .map((x) -> x + (Math.random() * (2 * step) - step)) // for each x in vector plus random number from [-step, step)
+                .toArray();
 
         quality = oracle.quality(solution);
     }

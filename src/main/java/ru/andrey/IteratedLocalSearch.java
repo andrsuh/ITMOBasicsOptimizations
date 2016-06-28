@@ -1,38 +1,30 @@
 package main.java.ru.andrey;
 
-import java.util.Arrays;
-
 import static java.lang.Math.random;
 
-public class IteratedLocalSearch {
-    private int dimension;
-    private Oracle oracle;
+public class IteratedLocalSearch extends OptimizationMethod {
     private double step = 0.05;
+
+    public IteratedLocalSearch(int dimension) {
+        super(dimension);
+    }
 
     public static void main(String[] args) {
         double acc = 0.0;
         IteratedLocalSearch s = new IteratedLocalSearch(10);
         for (int i = 0; i < 100; ++i) {
-            double opt = s.searchOptimum();
-            acc += opt;
-            System.out.println("Optimum " + opt);
+            Solution opt = s.searchOptimum();
+            acc += opt.getQuality();
+            System.out.println("Optimum " + opt.getQuality());
         }
         System.out.println("Average " + acc / 100.0);
     }
 
-    public IteratedLocalSearch(int dimension) {
-        this.dimension = dimension;
-    }
+    @Override
+    public Solution searchOptimum() {
+        Oracle oracle = new Oracle(dimension);
 
-    public Double searchOptimum() {
-        oracle = new Oracle(dimension);
-
-        Solution potentialSolution = new Solution(
-                oracle,
-                Arrays.stream(new double[dimension])
-                        .map((x) -> random() * 20 - 10) // [-10, 10)
-                        .toArray()
-        );
+        Solution potentialSolution = new Solution(oracle, randomGeneratedSolution());
         Solution homeBase = new Solution(potentialSolution);
         Solution bestSolution = new Solution(potentialSolution);
 
@@ -41,15 +33,13 @@ public class IteratedLocalSearch {
 
             while (time-- > 0) {
                 Solution newSolution = new Solution(potentialSolution);
-                newSolution.mutate(step, true);
+                newSolution.mutate(step);
 
                 if (newSolution.broken()) {
-                    return bestSolution.getQuality();
+                    return bestSolution;
                 }
 
                 if (potentialSolution.getQuality() > newSolution.getQuality()) {
-//                    System.out.println("CurSolution: " + potentialSolution.getSolution() + " CurQuality: " + potentialSolution.getQuality());
-//                    System.out.println("----------------------------------------------------------");
                     potentialSolution = newSolution;
                 }
             }
@@ -63,9 +53,9 @@ public class IteratedLocalSearch {
             }
 
             double randomJump = Math.random() * 3 - 1.5; // [-1.5, 1.5)
-            potentialSolution.mutate(randomJump, true);
+            potentialSolution.mutate(randomJump);
             if (potentialSolution.broken()) {
-                return bestSolution.getQuality();
+                return bestSolution;
             }
         }
     }
