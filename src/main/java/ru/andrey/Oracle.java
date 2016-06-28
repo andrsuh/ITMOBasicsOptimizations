@@ -10,6 +10,11 @@ public class Oracle {
     private int dimension;
     private int counter;
 
+    public Oracle(int dimension) {
+        this.dimension = dimension;
+        this.counter = (int) 10E4 * (int) pow(dimension, 2);
+    }
+
     public static void main(String[] args) {
         Oracle oracle = new Oracle(5);
 
@@ -17,7 +22,7 @@ public class Oracle {
         Double argValue = null;
 
         for (double i = -10; i < 10; i += 0.00001) {
-            double next = oracle.quality(new double[] {i, i, i, i, i});
+            double next = oracle.quality(new double[]{i, i, i, i, i});
             System.out.println("F(x) = " + next + " x = " + i);
 
             if (minValue == null || next < minValue) {
@@ -30,17 +35,8 @@ public class Oracle {
         System.out.println("Argument min == " + argValue);
     }
 
-    public Oracle() {
-        this(1);
-    }
-
-    public Oracle(int dimension) {
-        this.dimension = dimension;
-        this.counter = (int)10E4 * (int)pow(dimension, 2);
-    }
-
     public Double quality(final double x) {
-        return quality(new double[] {x});
+        return quality(new double[]{x});
     }
 
     public Double quality(final double[] args) {
@@ -65,7 +61,6 @@ public class Oracle {
             b++;
             g -= 2;
             a++;
-
         }
 
         return Collections.min(values);
