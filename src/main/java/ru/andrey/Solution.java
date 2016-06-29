@@ -1,4 +1,4 @@
-package main.java.ru.andrey;
+package ru.andrey;
 
 import java.util.Arrays;
 

@@ -1,4 +1,4 @@
-package main.java.ru.andrey;
+package ru.andrey;
 
 import static java.lang.Math.random;
 
@@ -11,7 +11,7 @@ public class IteratedLocalSearch extends OptimizationMethod {
 
     public static void main(String[] args) {
         double acc = 0.0;
-        IteratedLocalSearch s = new IteratedLocalSearch(10);
+        IteratedLocalSearch s = new IteratedLocalSearch(1);
         for (int i = 0; i < 100; ++i) {
             Solution opt = s.searchOptimum();
             acc += opt.getQuality();

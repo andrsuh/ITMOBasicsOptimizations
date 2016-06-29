@@ -1,4 +1,4 @@
-package main.java.ru.andrey;
+package ru.andrey;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,26 +15,6 @@ public class Oracle {
         this.counter = (int) 10E4 * (int) pow(dimension, 2);
     }
 
-    public static void main(String[] args) {
-        Oracle oracle = new Oracle(5);
-
-        Double minValue = null;
-        Double argValue = null;
-
-        for (double i = -10; i < 10; i += 0.00001) {
-            double next = oracle.quality(new double[]{i, i, i, i, i});
-            System.out.println("F(x) = " + next + " x = " + i);
-
-            if (minValue == null || next < minValue) {
-                minValue = next;
-                argValue = (double) i;
-            }
-        }
-
-        System.out.println("Function min == " + minValue);
-        System.out.println("Argument min == " + argValue);
-    }
-
     public Double quality(final double x) {
         return quality(new double[]{x});
     }
@@ -44,7 +24,7 @@ public class Oracle {
             return null;
         }
 
-        List<Double> values = new ArrayList<Double>();
+        List<Double> values = new ArrayList<>();
 
         int a = 1;
         int b = 1;

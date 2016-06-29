@@ -1,11 +1,10 @@
-package main.java.ru.andrey;
+package ru.andrey;
 
-import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-public class EvolutionStrategyWithMerging extends  OptimizationMethod {
+public class EvolutionStrategyWithMerging extends OptimizationMethod {
     private int m;
     private int l;
     private double step = 1;
@@ -18,7 +17,7 @@ public class EvolutionStrategyWithMerging extends  OptimizationMethod {
 
     public static void main(String[] args) {
         double acc = 0.0;
-        EvolutionStrategyWithMerging s = new EvolutionStrategyWithMerging(10, 50, 200);
+        EvolutionStrategyWithMerging s = new EvolutionStrategyWithMerging(1, 50, 200);
         for (int i = 0; i < 100; ++i) {
             Solution opt = s.searchOptimum();
             acc += opt.getQuality();
@@ -40,7 +39,7 @@ public class EvolutionStrategyWithMerging extends  OptimizationMethod {
 
         while (true) {
             for (Solution s : population) {
-                if (bestSolution == null || s.getQuality() < bestSolution.getQuality()) {
+                if (bestSolution == null || bestSolution.getQuality() > s.getQuality()) {
                     bestSolution = new Solution(s);
                 }
             }

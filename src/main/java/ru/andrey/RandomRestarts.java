@@ -1,15 +1,15 @@
-package main.java.ru.andrey;
+package ru.andrey;
 
-public class RandomSearch extends OptimizationMethod {
-    private double step = 1;
+public class RandomRestarts extends OptimizationMethod {
+    private double step = 0.1;
 
-    public RandomSearch(int dimension) {
+    public RandomRestarts(int dimension) {
         super(dimension);
     }
 
     public static void main(String[] args) {
         double acc = 0.0;
-        RandomSearch s = new RandomSearch(5);
+        RandomRestarts s = new RandomRestarts(1);
         for (int i = 0; i < 100; ++i) {
             Solution opt = s.searchOptimum();
             acc += opt.getQuality();
@@ -30,7 +30,8 @@ public class RandomSearch extends OptimizationMethod {
                 return globalOptimum;
             }
 
-            while (true) {
+            int time = (int) Math.pow(dimension, 2) * (int) (Math.random() * 300 - 100);
+            while (time-- != 0) {
                 Solution pretendentSolution = new Solution(currentSolution);
                 pretendentSolution.mutate(step);
 
@@ -40,21 +41,10 @@ public class RandomSearch extends OptimizationMethod {
 
                 if (pretendentSolution.getQuality() < currentSolution.getQuality()) { // we are looking for minimum
                     currentSolution = new Solution(pretendentSolution);
-                } else {
-                    if (globalOptimum == null || currentSolution.getQuality() < globalOptimum.getQuality()) {
-                        globalOptimum = new Solution(currentSolution);
-//                        int times = 1000;
-//                        while (times-- == 0 || globalOptimum == null) {
-//                            if (currentSolution.getQuality() < globalOptimum.getQuality()) {
-//                                globalOptimum = new Solution(currentSolution);
-//                            }
-//                            currentSolution.mutate(0.1, true);
-//                            if (currentSolution.broken()) {
-//                                return globalOptimum.getQuality();
-//                            }
-//                        }
-                    }
-                    break;
+                }
+
+                if (globalOptimum == null || currentSolution.getQuality() < globalOptimum.getQuality()) {
+                    globalOptimum = new Solution(currentSolution);
                 }
             }
         }

@@ -1,4 +1,4 @@
-package main.java.ru.andrey;
+package ru.andrey;
 
 import java.util.Set;
 import java.util.TreeSet;
@@ -17,7 +17,7 @@ public class EvolutionStrategyWithReplacement extends OptimizationMethod {
 
     public static void main(String[] args) {
         double acc = 0.0;
-        EvolutionStrategyWithReplacement s = new EvolutionStrategyWithReplacement(10, 5, 25);
+        EvolutionStrategyWithReplacement s = new EvolutionStrategyWithReplacement(1, 5, 25);
         for (int i = 0; i < 100; ++i) {
             Solution opt = s.searchOptimum();
             acc += opt.getQuality();
