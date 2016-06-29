@@ -5,10 +5,12 @@ import java.util.Collections;
 import java.util.List;
 
 import static java.lang.Math.pow;
+import static java.lang.Math.random;
 
 public class Oracle {
     private int dimension;
     private int counter;
+    private boolean noisy = true;
 
     public Oracle(int dimension) {
         this.dimension = dimension;
@@ -43,6 +45,10 @@ public class Oracle {
             a++;
         }
 
+        if (noisy) {
+            return (random() - 0.5) + Collections.min(values);
+        }
         return Collections.min(values);
+
     }
 }
