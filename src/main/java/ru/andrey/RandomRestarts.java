@@ -9,7 +9,7 @@ public class RandomRestarts extends OptimizationMethod {
 
     public static void main(String[] args) {
         double acc = 0.0;
-        RandomRestarts s = new RandomRestarts(1);
+        RandomRestarts s = new RandomRestarts(10);
         for (int i = 0; i < 100; ++i) {
             Solution opt = s.searchOptimum();
             acc += opt.getQuality();
@@ -30,7 +30,8 @@ public class RandomRestarts extends OptimizationMethod {
                 return globalOptimum;
             }
 
-            int time = (int) Math.pow(dimension, 2) * (int) (Math.random() * 300 - 100);
+//            int time = (int) Math.pow(dimension, 2) * (int) (Math.random() * 300 - 100);
+            int time = (int) Math.pow(dimension, 2) * (int) (Math.random() * 200 + 100);
             while (time-- != 0) {
                 Solution pretendentSolution = new Solution(currentSolution);
                 pretendentSolution.mutate(step);
