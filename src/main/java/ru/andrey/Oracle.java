@@ -3,6 +3,7 @@ package ru.andrey;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.lang.Math.pow;
 import static java.lang.Math.random;
@@ -10,19 +11,15 @@ import static java.lang.Math.random;
 public class Oracle {
     private int dimension;
     private int counter;
-    private boolean noisy = true;
+    private boolean noisy;
 
     public Oracle(int dimension) {
         this.dimension = dimension;
-        this.counter = (int) 10E4 * (int) pow(dimension, 2);
-    }
-
-    public Double quality(final double x) {
-        return quality(new double[]{x});
+        this.counter = (int) 1E4 * (int) pow(dimension, 2);
     }
 
     public Double quality(final double[] args) {
-        if (counter-- == 0) {
+        if (counter-- <= 0) {
             return null;
         }
 
