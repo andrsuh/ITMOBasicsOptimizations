@@ -39,7 +39,7 @@ public class EvolutionStrategyWithReplacement extends OptimizationMethod {
         while (true) {
             for (Solution solution : population) {
                 if (bestSolution == null || solution.getQuality() < bestSolution.getQuality()) {
-                    bestSolution = new Solution(solution);
+                    bestSolution = Solution.copyOf(solution);
                 }
             }
 
@@ -48,7 +48,7 @@ public class EvolutionStrategyWithReplacement extends OptimizationMethod {
             population = new TreeSet<>((a, b) -> a.getQuality().compareTo(b.getQuality()));
             for (Solution s : individualsForMutation) {
                 for (int i = 0; i < (l / m); ++i) {
-                    Solution temp = new Solution(s);
+                    Solution temp = Solution.copyOf(s);
                     temp.mutate(step);
                     if (temp.broken()) {
                         return bestSolution;

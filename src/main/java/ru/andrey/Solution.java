@@ -17,10 +17,14 @@ public class Solution {
         quality = oracle.quality(solution);
     }
 
-    public Solution(Solution other) {
+    private Solution(Solution other) {
         this.oracle = other.oracle;
         this.solution = Arrays.copyOf(other.solution, other.solution.length);
         this.quality = other.quality;
+    }
+
+    public static Solution copyOf(Solution other) {
+        return new Solution(other);
     }
 
     public void mutate(double step) {

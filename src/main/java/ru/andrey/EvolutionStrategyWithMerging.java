@@ -40,7 +40,7 @@ public class EvolutionStrategyWithMerging extends OptimizationMethod {
         while (true) {
             for (Solution s : population) {
                 if (bestSolution == null || bestSolution.getQuality() > s.getQuality()) {
-                    bestSolution = new Solution(s);
+                    bestSolution = Solution.copyOf(s);
                 }
             }
 
@@ -50,7 +50,7 @@ public class EvolutionStrategyWithMerging extends OptimizationMethod {
             for (Solution s : individualsForMutation) {
                 population.add(s);
                 for (int i = 0; i < (l / m); ++i) {
-                    Solution solution = new Solution(s);
+                    Solution solution = Solution.copyOf(s);
                     solution.mutate(step);
                     if (solution.broken()) {
                         return bestSolution;

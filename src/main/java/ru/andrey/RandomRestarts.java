@@ -33,7 +33,7 @@ public class RandomRestarts extends OptimizationMethod {
 //            int time = (int) Math.pow(dimension, 2) * (int) (Math.random() * 300 - 100);
             int time = (int) Math.pow(dimension, 2) * (int) (Math.random() * 200 + 100);
             while (time-- != 0) {
-                Solution pretendentSolution = new Solution(currentSolution);
+                Solution pretendentSolution = Solution.copyOf(currentSolution);
                 pretendentSolution.mutate(step);
 
                 if (pretendentSolution.broken()) {
@@ -41,11 +41,11 @@ public class RandomRestarts extends OptimizationMethod {
                 }
 
                 if (pretendentSolution.getQuality() < currentSolution.getQuality()) { // we are looking for minimum
-                    currentSolution = new Solution(pretendentSolution);
+                    currentSolution = Solution.copyOf(pretendentSolution);
                 }
 
                 if (globalOptimum == null || currentSolution.getQuality() < globalOptimum.getQuality()) {
-                    globalOptimum = new Solution(currentSolution);
+                    globalOptimum = Solution.copyOf(currentSolution);
                 }
             }
         }

@@ -23,7 +23,7 @@ public class Monitor {
             methods.add(new EvolutionStrategyWithMerging(dimension, 50, 200));
 
             for (OptimizationMethod method : methods) {
-                run(method, 100);
+                run(method, 1);
             }
         }
 

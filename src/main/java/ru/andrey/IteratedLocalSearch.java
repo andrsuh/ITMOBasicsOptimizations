@@ -25,14 +25,14 @@ public class IteratedLocalSearch extends OptimizationMethod {
         Oracle oracle = new Oracle(dimension);
 
         Solution potentialSolution = new Solution(oracle, randomGeneratedSolution());
-        Solution homeBase = new Solution(potentialSolution);
-        Solution bestSolution = new Solution(potentialSolution);
+        Solution homeBase = Solution.copyOf(potentialSolution);
+        Solution bestSolution = Solution.copyOf(potentialSolution);
 
         while (true) {
             int time = dimension * (int) Math.random() * 900 + 100;
 
             while (time-- > 0) {
-                Solution newSolution = new Solution(potentialSolution);
+                Solution newSolution = Solution.copyOf(potentialSolution);
                 newSolution.mutate(step);
 
                 if (newSolution.broken()) {
@@ -45,11 +45,11 @@ public class IteratedLocalSearch extends OptimizationMethod {
             }
 
             if (bestSolution.getQuality() > potentialSolution.getQuality()) {
-                bestSolution = new Solution(potentialSolution);
+                bestSolution = Solution.copyOf(potentialSolution);
             }
 
             if (homeBase.getQuality() > potentialSolution.getQuality() || 0.1 > random()) {
-                homeBase = new Solution(potentialSolution);
+                homeBase = Solution.copyOf(potentialSolution);
             }
 
             double randomJump = Math.random() * 3 - 1.5; // [-1.5, 1.5)

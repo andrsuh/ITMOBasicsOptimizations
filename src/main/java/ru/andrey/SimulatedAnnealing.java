@@ -26,7 +26,7 @@ public class SimulatedAnnealing extends OptimizationMethod {
         temperature = ((int) 1E4 * (int) pow(dimension, 2)) - (100 * dimension);
 
         Solution currentSolution = new Solution(oracle, randomGeneratedSolution());
-        Solution globalOptimum = new Solution(currentSolution);
+        Solution globalOptimum = Solution.copyOf(currentSolution);
 
         while (temperature-- > 0) {
             Solution pretendentSolution = new Solution(oracle, randomGeneratedSolution());
@@ -40,19 +40,19 @@ public class SimulatedAnnealing extends OptimizationMethod {
             }
 
             if (globalOptimum == null || currentSolution.getQuality() < globalOptimum.getQuality()) {
-                globalOptimum = new Solution(currentSolution);
+                globalOptimum = Solution.copyOf(currentSolution);
             }
         }
 
         while (true) {
-            Solution temp = new Solution(globalOptimum);
+            Solution temp = Solution.copyOf(globalOptimum);
             temp.mutate(0.1);
             if (temp.broken()) {
                 break;
             }
 
             if (temp.getQuality() < globalOptimum.getQuality()) {
-                globalOptimum = new Solution(temp);
+                globalOptimum = Solution.copyOf(temp);
             }
         }
 
