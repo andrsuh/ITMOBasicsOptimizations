@@ -28,7 +28,7 @@ public class EvolutionStrategyWithMerging extends OptimizationMethod {
 
     @Override
     public Solution searchOptimum() {
-        Oracle oracle = new Oracle(dimension);
+        oracle = new Oracle(dimension);
 
         Set<Solution> population = new TreeSet<>((a, b) -> a.getQuality().compareTo(b.getQuality()));
         for (int i = 0; i < l; ++i) {

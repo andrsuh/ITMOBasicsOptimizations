@@ -8,7 +8,7 @@ public class Solution {
     private Oracle oracle;
 
     public Solution(Oracle oracle, double initialSolution) {
-        this(oracle, new double[]{initialSolution});
+        this(oracle, new double[] {initialSolution});
     }
 
     public Solution(Oracle oracle, double[] initialSolution) {

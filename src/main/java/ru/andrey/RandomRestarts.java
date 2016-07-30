@@ -20,7 +20,7 @@ public class RandomRestarts extends OptimizationMethod {
 
     @Override
     public Solution searchOptimum() {
-        Oracle oracle = new Oracle(dimension);
+        oracle = new Oracle(dimension);
         Solution globalOptimum = null;
 
         while (true) {

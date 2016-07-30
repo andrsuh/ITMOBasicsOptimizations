@@ -11,18 +11,18 @@ public class IteratedLocalSearch extends OptimizationMethod {
 
     public static void main(String[] args) {
         double acc = 0.0;
-        IteratedLocalSearch s = new IteratedLocalSearch(1);
-        for (int i = 0; i < 100; ++i) {
-            Solution opt = s.searchOptimum();
-            acc += opt.getQuality();
-            System.out.println("Optimum " + opt.getQuality());
+        IteratedLocalSearch s = new IteratedLocalSearch(10);
+        for (int i = 0; i < 10; ++i) {
+            double diff = s.getDifference();
+            acc += diff;
+            System.out.println("Difference " + diff);
         }
-        System.out.println("Average " + acc / 100.0);
+        System.out.println("Average " + acc / 10.0);
     }
 
     @Override
     public Solution searchOptimum() {
-        Oracle oracle = new Oracle(dimension);
+        oracle = new Oracle(dimension);
 
         Solution potentialSolution = new Solution(oracle, randomGeneratedSolution());
         Solution homeBase = Solution.copyOf(potentialSolution);

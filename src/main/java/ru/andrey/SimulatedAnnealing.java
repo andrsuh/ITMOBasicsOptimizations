@@ -22,7 +22,7 @@ public class SimulatedAnnealing extends OptimizationMethod {
 
     @Override
     public Solution searchOptimum() {
-        Oracle oracle = new Oracle(dimension);
+        oracle = new Oracle(dimension);
         temperature = ((int) 1E4 * (int) pow(dimension, 2)) - (100 * dimension);
 
         Solution currentSolution = new Solution(oracle, randomGeneratedSolution());
