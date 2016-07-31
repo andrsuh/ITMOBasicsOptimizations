@@ -17,11 +17,11 @@ public class EvolutionStrategyWithMerging extends OptimizationMethod {
 
     public static void main(String[] args) {
         double acc = 0.0;
-        EvolutionStrategyWithMerging s = new EvolutionStrategyWithMerging(1, 50, 200);
+        EvolutionStrategyWithMerging s = new EvolutionStrategyWithMerging(10,50, 200);
         for (int i = 0; i < 100; ++i) {
-            Solution opt = s.searchOptimum();
-            acc += opt.getQuality();
-            System.out.println("Optimum " + opt.getQuality());
+            double diff = s.getDifference();
+            acc += diff;
+            System.out.println("Optimum " + diff);
         }
         System.out.println("Average " + acc / 100.0);
     }

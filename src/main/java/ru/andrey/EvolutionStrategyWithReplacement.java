@@ -17,11 +17,11 @@ public class EvolutionStrategyWithReplacement extends OptimizationMethod {
 
     public static void main(String[] args) {
         double acc = 0.0;
-        EvolutionStrategyWithReplacement s = new EvolutionStrategyWithReplacement(1, 5, 25);
+        EvolutionStrategyWithReplacement s = new EvolutionStrategyWithReplacement(10, 5, 25);
         for (int i = 0; i < 100; ++i) {
-            Solution opt = s.searchOptimum();
-            acc += opt.getQuality();
-            System.out.println("Optimum " + opt.getQuality());
+            double diff = s.getDifference();
+            acc += diff;
+            System.out.println("Optimum " + diff);
         }
         System.out.println("Average " + acc / 100.0);
     }

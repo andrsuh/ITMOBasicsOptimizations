@@ -11,9 +11,9 @@ public class RandomRestarts extends OptimizationMethod {
         double acc = 0.0;
         RandomRestarts s = new RandomRestarts(10);
         for (int i = 0; i < 100; ++i) {
-            Solution opt = s.searchOptimum();
-            acc += opt.getQuality();
-            System.out.println("Optimum " + opt.getQuality());
+            double diff = s.getDifference();
+            acc += diff;
+            System.out.println("Optimum " + diff);
         }
         System.out.println("Average " + acc / 100.0);
     }

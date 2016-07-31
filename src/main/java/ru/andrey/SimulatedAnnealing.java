@@ -12,12 +12,12 @@ public class SimulatedAnnealing extends OptimizationMethod {
     public static void main(String[] args) {
         double acc = 0.0;
         SimulatedAnnealing s = new SimulatedAnnealing(10);
-        for (int i = 0; i < 10; ++i) {
-            Solution opt = s.searchOptimum();
-            acc += opt.getQuality();
-            System.out.println("Optimum " + opt.getQuality());
+        for (int i = 0; i < 100; ++i) {
+            double diff = s.getDifference();
+            acc += diff;
+            System.out.println("Optimum " + diff);
         }
-        System.out.println("Average " + acc / 10.0);
+        System.out.println("Average " + acc / 100.0);
     }
 
     @Override
