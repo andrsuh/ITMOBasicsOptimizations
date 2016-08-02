@@ -3,6 +3,7 @@ package ru.andrey;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Monitor {
@@ -14,16 +15,17 @@ public class Monitor {
         for (int dimension = 1; dimension <= 10; ++dimension) {
             file.write("Dimension: " + dimension + "\n");
 
-            List<OptimizationMethod> methods = new ArrayList<>();
-
-            methods.add(new RandomRestarts(dimension));
-            methods.add(new SimulatedAnnealing(dimension));
-            methods.add(new IteratedLocalSearch(dimension));
-            methods.add(new EvolutionStrategyWithReplacement(dimension, 5, 25));
-            methods.add(new EvolutionStrategyWithMerging(dimension, 50, 200));
+            List<OptimizationMethod> methods = Arrays.asList(
+                    new RandomRestarts(dimension),
+                    new SimulatedAnnealing(dimension),
+                    new IteratedLocalSearch(dimension),
+                    new EvolutionStrategyWithReplacement(dimension, 5, 25),
+                    new EvolutionStrategyWithMerging(dimension, 50, 200),
+                    new EvolutionStrategyWithCrossing(dimension, 50, 250)
+            );
 
             for (OptimizationMethod method : methods) {
-                run(method, 1);
+                run(method, 100);
             }
         }
 
@@ -33,9 +35,9 @@ public class Monitor {
     public static void run(OptimizationMethod method, int times) throws IOException {
         double acc = 0.0;
         for (int i = 0; i < times; ++i) {
-            Solution opt = method.searchOptimum();
-            acc += opt.getQuality();
+            double diff = method.getDifference();
+            acc += diff;
         }
-        file.write("Method: " + method.getClass() + " Average: " + acc / (double) times + "\n");
+        file.write("Method: " + method.getClass() + " Average difference: " + acc / (double) times + "\n");
     }
 }
