@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DifferentialEvolution extends OptimizationMethod {
-    private static final double DIFFEVOLUTION_PARAMETER = 0.05;
-    private static final double MUTATION_PROBABILITY = 0.2;
+    private static final double DIFFEVOLUTION_PARAMETER = 1.0E-4;
+    private static final double MUTATION_PROBABILITY = 1.0;
     private static final int POPULATION_SIZE = 1000;
 
     private int populationSize;
