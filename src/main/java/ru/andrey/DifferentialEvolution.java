@@ -6,7 +6,7 @@ import java.util.List;
 
 public class DifferentialEvolution extends OptimizationMethod {
     private static final double DIFFEVOLUTION_PARAMETER = 1.0E-4;
-    private static final double MUTATION_PROBABILITY = 1.0;
+    private static final double MUTATION_PROBABILITY = 0.9;
     private static final int POPULATION_SIZE = 1000;
 
     private int populationSize;
@@ -55,8 +55,8 @@ public class DifferentialEvolution extends OptimizationMethod {
                 double[] newSolution = current.getSolution();
 
                 for (int j = 0; j < dimension; j++) {
-                    if (j == k || Math.random() > MUTATION_PROBABILITY) {
-                        newSolution[j] = a[j] + DIFFEVOLUTION_PARAMETER * (b[j] - c[j]);
+                    if (j == k || Math.random() < MUTATION_PROBABILITY) {
+                        newSolution[j] = a[j] +  DIFFEVOLUTION_PARAMETER * (b[j] - c[j]);
                     }
                 }
 
